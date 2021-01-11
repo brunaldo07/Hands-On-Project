@@ -1,0 +1,37 @@
+---
+title: "Restaurant_review_HO1"
+author: "Bruno Díez Buitrago"
+date: "11/1/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+Introduction
+The goal of this document is to show how to perform different analyses of text documents at a word level, mainly using the tm (text mining) package in R.
+
+```{r include= FALSE}
+library(tm)
+library(ggplot2)
+library(wordcloud)
+library(RWeka)
+library(reshape2)
+```
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
