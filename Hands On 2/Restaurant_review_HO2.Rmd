@@ -11,28 +11,85 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introduction
 
-The goal of this document is to show how to perform different analyses of text documents at a word level, mainly using the tm (text mining) package in R.
-This is part of the Intelligent Systems project found on https://github.com/brunaldo07/Hands-On-Project
+The goal of this document is to show how to perform different annotations (word, sentence, part-of-speech, and Penn Treebank parse) over text documents using the openNLP (natural language processing) and the tm (text mining) packages in R.  
+This is part of the Intelligent Systems project found on https://github.com/brunaldo07/Hands-On-Project, precisely the second hands on 
 
 ```{r include=FALSE}
+#Please set your corresponding path to the directory in your terminal
+setwd("F:/informatica/6 Master Data Science/Intelligent Systems/Unit 5/Hands-On-Project/Hands On 2")
+
+#Setting up mirror
+r = getOption("repos")
+r["CRAN"] = "http://cran.us.r-project.org"
+options(repos = r)
+
 #Including libraries
-setwd("F:/informatica/6 Master Data Science/Intelligent Systems/Unit 5/Hands-On-Project/Hands On 1")
+# Needed for OutOfMemoryError: Java heap space 
+library(rJava)
+.jinit(parameters="-Xmx4g")
+# If there are more memory problems, invoke gc() after the POS tagging
+
+library(NLP)
+install.packages("openNLP")
+library(openNLP) 
+install.packages("openNLPmodels.en", repos = "http://datacube.wu.ac.at/", type = "source")
 library(tm)
 library(ggplot2)
-library(wordcloud)
-library(RWeka)
-library(reshape2)
+install.packages("ggtext")
+library(ggtext)
+options(java.parameters = "-Xmx8000m")
 ```
 
 
-# Loading Corpus
+# Auxiliary functions
+
+getAnnotationsFromDocument returns annotations for the text document: word, sentence, part-of-speech, and Penn Treebank parse annotations.
+As an alternative, the koRpus package uses TreeTagger for POS tagging.
+
+```{r include = F}
+getAnnotationsFromDocument = function(doc){
+  x=as.String(doc)
+  sent_token_annotator <- Maxent_Sent_Token_Annotator()
+  word_token_annotator <- Maxent_Word_Token_Annotator()
+  pos_tag_annotator <- Maxent_POS_Tag_Annotator()
+  y1 <- NLP::annotate(x, list(sent_token_annotator, word_token_annotator))
+  y2 <- NLP::annotate(x, pos_tag_annotator, y1)
+  parse_annotator <- Parse_Annotator()
+  y3 <- NLP::annotate(x, parse_annotator, y2)
+  return(y3)  
+} 
+```
+
+getAnnotatedMergedDocument returns the text document merged with the annotations.
+
+```{r include = F}
+getAnnotatedMergedDocument = function(doc,annotations){
+  x=as.String(doc)
+  y2w <- subset(annotations, type == "word")
+  tags <- sapply(y2w$features, '[[', "POS")
+  r1 <- sprintf("%s/%s", x[y2w], tags)
+  r2 <- paste(r1, collapse = " ")
+  return(r2)  
+} 
+```
+
+getAnnotatedPlainTextDocument returns the text document along with its annotations in an AnnotatedPlainTextDocument.
+
+```{r include = F}
+getAnnotatedPlainTextDocument = function(doc,annotations){
+  x=as.String(doc)
+  a = AnnotatedPlainTextDocument(x,annotations)
+  return(a)  
+} 
+```
+
+#Loading corpus
 
 We are using a reduced version of the dataset found in https://www.kaggle.com/vigneshwarsofficial/reviews  containing information about restaurant reviews. 
-It can be found in the folder "Corpus" of the containing folder "Resources" of the github project.
-The corpus containing all instances of the dataset can be found in the folder "reviews" under the "Resources" folder. 
+In this hand on, the 1000 reviews set is too big to be processed in a reasonable amount of time so we are using a set of 100 reviews placed on "Resources/short". 
 
 ```{r}
-source.pos = DirSource("../Resources/reviews", encoding = "UTF-8")
+source.pos = DirSource("../Resources/short", encoding = "UTF-8")
 corpus = Corpus(source.pos)
 ```
 
@@ -47,3 +104,41 @@ length(corpus)
 summary(corpus[1:10])
 
 ```
+# Annotate corpus
+We apply the getAnnotationsFromDocument function to the corpus using lapply function 
+
+
+```{r}
+annotations = lapply(corpus, getAnnotationsFromDocument)
+head(annotations[[1]])
+tail(annotations[[1]])
+
+```
+
+Let's attach these annotations to que document and store the annotated corpus, as well as storing these annotations inline text
+```{r}
+corpus.tagged = Map(getAnnotatedPlainTextDocument, corpus, annotations)
+corpus.tagged[[1]] 
+corpus.taggedText = Map(getAnnotatedMergedDocument, corpus, annotations)
+corpus.taggedText[[1]]
+```
+
+ 
+# Exploring annotated documents
+
+We can access and annotatedPlainTextDocument
+```{r}
+doc = corpus.tagged[[1]] 
+doc
+```
+And then use different functions to see a document, its words, sentences, tagged words and sentences or the parse tree of its sentences
+```{r}
+as.character(doc)
+head(words(doc))
+head(sents(doc),1)
+head(tagged_words(doc))
+head(tagged_sents(doc),1)
+head(parsed_sents(doc),1)
+```
+
+r

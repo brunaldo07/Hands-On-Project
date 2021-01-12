@@ -1,0 +1,101 @@
+"File";"was/VBD [A-z]*";"this/DT [A-z]*";"be/VB [A-z]*";"the/DT [A-z]* [A-z]*";"[A-z]* time[s]?/NN[S]?";"[A-z]* place[s]?/NN[S]?"
+"review_10.txt";;;;;;
+"review_100.txt";"was/VBD not";;;;;
+"review_101.txt";;;;;;
+"review_11.txt";;;;;;
+"review_12.txt";"was/VBD very";;;;;
+"review_13.txt";;;;;;
+"review_14.txt";;;;;;
+"review_15.txt";;;;;;
+"review_16.txt";"was/VBD disgusted, was/VBD pretty, was/VBD human";;;;;
+"review_17.txt";"was/VBD shocked";;;;;
+"review_18.txt";;;;;;
+"review_19.txt";"was/VBD a";;;;;
+"review_2.txt";;"this/DT place";;;;"DT place/NN"
+"review_20.txt";;;;;" time/NN";"DT place/NN"
+"review_21.txt";;;;;;
+"review_22.txt";;;;;;
+"review_23.txt";;;;;;
+"review_24.txt";;;;;;
+"review_25.txt";;;;;;
+"review_26.txt";;;;;;
+"review_27.txt";;"this/DT stuff";;;;
+"review_28.txt";;;;;;
+"review_29.txt";;;;;;
+"review_3.txt";;;;;;
+"review_30.txt";"was/VBD Luke, was/VBD running, was/VBD totally";;;;;
+"review_31.txt";"was/VBD the";;;;;
+"review_32.txt";;;;;;
+"review_33.txt";"was/VBD like";;;;;
+"review_34.txt";;"this/DT place";"be/VB happier";;;"DT place/NN"
+"review_35.txt";;;;;;"JJ place/NN"
+"review_36.txt";;"this/DT place";;;;"DT place/NN"
+"review_37.txt";"was/VBD that, was/VBD very";;;;;
+"review_38.txt";;;;;;
+"review_39.txt";"was/VBD stupid";;;;"DT time/NN";
+"review_4.txt";"was/VBD just";;;;;
+"review_40.txt";"was/VBD a";;;;;
+"review_41.txt";;;;;;
+"review_42.txt";;;;;;
+"review_43.txt";;;;;;
+"review_44.txt";;;;;;
+"review_45.txt";"was/VBD very";;;;;
+"review_46.txt";;;;;;
+"review_47.txt";"was/VBD the";;;;;
+"review_48.txt";;;;;;
+"review_49.txt";;;;;;
+"review_5.txt";;;;;;
+"review_50.txt";;;;;;
+"review_51.txt";"was/VBD so, was/VBD very";;;;;
+"review_52.txt";"was/VBD pink";;;;;
+"review_53.txt";;;;;;
+"review_54.txt";;;;;;
+"review_55.txt";;;;;;
+"review_56.txt";"was/VBD huge";;;;;
+"review_57.txt";;;;;;
+"review_58.txt";;;;;;
+"review_59.txt";;;;;;
+"review_6.txt";"was/VBD great";;;;;
+"review_60.txt";"was/VBD perfectly";;;;;
+"review_61.txt";"was/VBD not";;;;;
+"review_62.txt";;;;;;
+"review_63.txt";;;;;;"DT place/NN"
+"review_64.txt";;;;;;
+"review_65.txt";;;;;;
+"review_66.txt";;"this/DT place";;;;"DT place/NN"
+"review_67.txt";;;;;;
+"review_68.txt";;;;;"JJ time/NN";
+"review_69.txt";"was/VBD still";;;;"JJ time/NN";
+"review_7.txt";;;;;;
+"review_70.txt";"was/VBD chewy";;;;;
+"review_71.txt";;;;;;
+"review_72.txt";;;;;;
+"review_73.txt";;;;;"DT time/NN";
+"review_74.txt";"was/VBD meh";;;;;
+"review_75.txt";"was/VBD nothing";;;;;
+"review_76.txt";;"this/DT place";;;;"DT place/NN"
+"review_77.txt";;;;;;
+"review_78.txt";;;;;"CD times/NNS";
+"review_79.txt";;;;;;
+"review_8.txt";;;;;;
+"review_80.txt";"was/VBD pretty";;;;"JJ time/NN";
+"review_81.txt";;;;;;
+"review_82.txt";;;;;;
+"review_83.txt";;;;;;"DT place/NN"
+"review_84.txt";;;;;;
+"review_85.txt";;;;;;"DT place/NN"
+"review_86.txt";;;;;;
+"review_87.txt";;;;;;
+"review_88.txt";;;;;;
+"review_89.txt";"was/VBD amazing";;;;;
+"review_9.txt";;;;;"IN time/NN";
+"review_90.txt";;;;;;
+"review_91.txt";"was/VBD fresh";;;;;
+"review_92.txt";"was/VBD a";"this/DT was";;;;
+"review_93.txt";;;;;;
+"review_94.txt";;;;;;
+"review_95.txt";;;;;;
+"review_96.txt";;;;;;
+"review_97.txt";;;;;;
+"review_98.txt";;;"be/VB back";;;
+"review_99.txt";;;;;;

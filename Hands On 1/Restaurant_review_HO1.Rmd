@@ -11,12 +11,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introduction
 
-The goal of this document is to show how to perform different analyses of text documents at a word level, mainly using the tm (text mining) package in R.
-This is part of the Intelligent Systems project found on https://github.com/brunaldo07/Hands-On-Project
+The goal of this document is to show how to perform different analyses of text documents at a word level, mainly using the tm (text mining) package in R.  
+This is part of the Intelligent Systems project found on https://github.com/brunaldo07/Hands-On-Project , precisely the first hands on
 
 ```{r include=FALSE}
-#Including libraries
+#Please set your corresponding path to the directory in your terminal
 setwd("F:/informatica/6 Master Data Science/Intelligent Systems/Unit 5/Hands-On-Project/Hands On 1")
+
+#Including libraries
 library(tm)
 library(ggplot2)
 library(wordcloud)
@@ -186,9 +188,10 @@ ggplot(asoc.delici, aes(reorder(names,delici), delici)) +
   xlab("Terms") + ylab("Correlation") +
   ggtitle("\"delici\" associations")
 ```
+  
 Although it is not very useful since all results have the same aspect
 
-#Word cloud
+# Word cloud
 ```{r}
 pal=brewer.pal(8,"Blues")
 pal=pal[-(1:3)]
