@@ -1,0 +1,49 @@
+---
+title: "Restaurant_review_HO2"
+author: "Bruno Díez Buitrago"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Introduction
+
+The goal of this document is to show how to perform different analyses of text documents at a word level, mainly using the tm (text mining) package in R.
+This is part of the Intelligent Systems project found on https://github.com/brunaldo07/Hands-On-Project
+
+```{r include=FALSE}
+#Including libraries
+setwd("F:/informatica/6 Master Data Science/Intelligent Systems/Unit 5/Hands-On-Project/Hands On 1")
+library(tm)
+library(ggplot2)
+library(wordcloud)
+library(RWeka)
+library(reshape2)
+```
+
+
+# Loading Corpus
+
+We are using a reduced version of the dataset found in https://www.kaggle.com/vigneshwarsofficial/reviews  containing information about restaurant reviews. 
+It can be found in the folder "Corpus" of the containing folder "Resources" of the github project.
+The corpus containing all instances of the dataset can be found in the folder "reviews" under the "Resources" folder. 
+
+```{r}
+source.pos = DirSource("../Resources/reviews", encoding = "UTF-8")
+corpus = Corpus(source.pos)
+```
+
+
+# Inspecting the corpus
+
+
+Let's see the length of the corpus and a the first entries to see the kind of documents it includes
+
+```{r }
+length(corpus)
+summary(corpus[1:10])
+
+```

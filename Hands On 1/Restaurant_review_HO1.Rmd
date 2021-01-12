@@ -1,7 +1,6 @@
 ---
 title: "Restaurant_review_HO1"
 author: "Bruno Díez Buitrago"
-date: "11/1/2021"
 output: html_document
 ---
 
@@ -213,6 +212,3 @@ We obtain the frequency of each term and invoke the wordcloud function
 word.cloud=wordcloud(words=names(freq), freq=freq,
                      min.freq=25, random.order=F, colors=pal)
 ```
-
-
-f
