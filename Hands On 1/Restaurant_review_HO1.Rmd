@@ -28,11 +28,12 @@ library(reshape2)
 
 # Loading Corpus
 
-We are using a reduced version of the dataset found in https://www.kaggle.com/vigneshwarsofficial/reviews  containing information about restaurant reviews
-It can be found in the folder "Corpus" of the containing folder "Resources" of the github project
+We are using a reduced version of the dataset found in https://www.kaggle.com/vigneshwarsofficial/reviews  containing information about restaurant reviews. 
+It can be found in the folder "Corpus" of the containing folder "Resources" of the github project.
+The corpus containing all instances of the dataset can be found in the folder "reviews" under the "Resources" folder. 
 
 ```{r}
-source.pos = DirSource("../Resources/Corpus", encoding = "UTF-8")
+source.pos = DirSource("../Resources/reviews", encoding = "UTF-8")
 corpus = Corpus(source.pos)
 ```
 
@@ -69,4 +70,149 @@ We are going to create a term document matrix and look at its summary
 tdm = TermDocumentMatrix(corpus)
 tdm
 ```
+The high level of sparsity means most of the content of the matrix are zeroes. We can look at an example of this by taking a subset of documents and terms of the TDM.  
+In this particular example the subset is :  
+- Documents 106 to 110  
+- Terms 10 to 30
 
+```{r}
+inspect(tdm[106:110,10:30])
+```
+
+We can see the number of terms identified in the tdm
+
+```{r}
+length(dimnames(tdm)$Terms)
+
+```
+Let's see how frequently those terms appear and plot their frequencies ordered 
+```{r}
+freq=rowSums(as.matrix(tdm))
+plot(sort(freq, decreasing = T),col="blue",main="Word frequencies", xlab="Frequency-based rank", ylab = "Frequency")
+
+```
+  
+We can take a look at the frequencies of the terms
+
+```{r}
+head(freq,10)
+tail(freq,10)
+
+#most frequent terms
+tail(sort(freq),n=15)
+```
+
+
+This number of terms only appear once
+```{r}
+sum(freq == 1)
+```
+# Create TDM with transformations and custom stopwords
+
+We can design some custom stopwords in order to skip those terms that are not going to give us much information in the context we are working on (restaurant reviews).
+```{r}
+
+review =  corpus[110]
+myStopwords = c(stopwords(),"food","restaurant","review")
+review = tm_map(corpus[110],removeWords,myStopwords)
+review[[1]]$content[1]
+```
+create new tdm with transformations an custom stop words
+
+```{r}
+tdm = TermDocumentMatrix(corpus,
+                         control=list(stopwords = myStopwords,
+                                      removePunctuation = T, 
+                                      removeNumbers = T,
+                                      stemming = T))
+tdm
+```
+We can also show the most frequent terms and their frequencies in a bar plot.
+```{r}
+freq=rowSums(as.matrix(tdm))
+high.freq=tail(sort(freq),n=10)
+hfp.df=as.data.frame(sort(high.freq))
+hfp.df$names <- rownames(hfp.df) 
+ggplot(hfp.df, aes(reorder(names,high.freq), high.freq)) +
+  geom_bar(stat="identity") + coord_flip() + 
+  xlab("Terms") + ylab("Frequency") +
+  ggtitle("Term frequencies")
+```
+
+# TDM with TF-IDF weights
+
+We take a look at the summary of the tdm resulting from applying TF-IDF weights
+```{r}
+tdm.tfidf = TermDocumentMatrix(corpus,
+                               control = list(weighting = weightTfIdf,
+                                              stopwords = myStopwords, 
+                                              removePunctuation = T,
+                                              removeNumbers = T,
+                                              stemming = T))
+tdm.tfidf
+
+```
+We inspect a subset of the tdm
+```{r}
+inspect(tdm.tfidf[130:150,100:200])
+
+```
+
+We can also plot the TF-IDF values in order and see the terms with the highest TF-IDF
+```{r}
+freq=rowSums(as.matrix(tdm.tfidf))
+
+plot(sort(freq, decreasing = T),col="blue",main="Word TF-IDF frequencies", xlab="TF-IDF-based rank", ylab = "TF-IDF")
+```
+```{r}
+tail(sort(freq),n=10)
+
+```
+# Association analysis 
+Let's see the words most associated with some of the most relean terms
+```{r}
+asoc.servic = as.data.frame(findAssocs(tdm,"servic", 0.2))
+asoc.servic$names <- rownames(asoc.servic)
+asoc.servic
+```
+```{r}
+asoc.delici = as.data.frame(findAssocs(tdm,"delici", 0.2))
+asoc.delici$names <- rownames(asoc.delici)
+asoc.delici
+```
+Let's see this last result in a bargraph. 
+```{r}
+ggplot(asoc.delici, aes(reorder(names,delici), delici)) +   
+  geom_bar(stat="identity") + coord_flip() + 
+  xlab("Terms") + ylab("Correlation") +
+  ggtitle("\"delici\" associations")
+```
+Although it is not very useful since all results have the same aspect
+
+#Word cloud
+```{r}
+pal=brewer.pal(8,"Blues")
+pal=pal[-(1:3)]
+
+set.seed(1234)
+```
+
+We create an ngram corpus
+```{r}
+corpus.ngrams = VCorpus(source.pos)
+
+tdm.unigram = TermDocumentMatrix(corpus.ngrams,
+                                control=list(stopwords = c(myStopwords,"s","ve"),
+                                removePunctuation = T, 
+                                removeNumbers = T)) 
+```
+
+We obtain the frequency of each term and invoke the wordcloud function
+
+```{r}
+word.cloud=wordcloud(words=names(freq), freq=freq,
+                     min.freq=25, random.order=F, colors=pal)
+```
+
+
+f
